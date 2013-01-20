@@ -134,9 +134,9 @@ insert_into_file "config/application.rb",
                  %(    config.i18n.default_locale = :ja\n),
                  after: "# config.i18n.default_locale = :de\n"
 
-# config/development.rb
-insert_into_file "config/development.rb",
-                 %(    config.action_mailer.default_url_options = { :host => 'localhost:3000' }\n),
+# config/environments/development.rb
+insert_into_file "config/environments/development.rb",
+                 %(    config.action_mailer.default_url_options = Settings.action_mailer.default_url_options.to_hash\n),
                  after: "# config.action_mailer.raise_delivery_errors = false\n"
 
 # config/settings
@@ -177,12 +177,3 @@ git :commit => '-am "Initial commit"'
 if @deploy_via_remote && @remote_repo
   git :remote => "add origin git@bitbucket.org:workbrew/#@app_name.git"
 end
-
-#
-# Generators
-#
-p "bundle install --path vendor/bundle\n
-./script/rails g bootstrap:install\n
-./script/rails g devise:install\n
-./script/rails g devise User\n
-./script/rails g bootstrap:layout application (fixed|fluid)"
