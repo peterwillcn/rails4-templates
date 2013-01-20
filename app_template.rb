@@ -87,10 +87,14 @@ get "#{repo_url}/gitignore", ".gitignore"
 remove_file "public/index.html"
 remove_file "app/assets//images/rails.png"
 
+# bundler
+empty_directory ".bundle"
+get "#{repo_url}/bundle.config", ".bundle"
+
 # views
 empty_directory "app/views/kaminari"
 %w(first_page gap last_page next_page page paginator prev_page).each do |key|
-  get "https://github.com/gabetax/twitter-bootstrap-kaminari-views.git/app/views/kaminari/_#{key}.html.erb", "app/views/kaminari/_#{key}.html.erb"
+  get "https://github.com/gabetax/twitter-bootstrap-kaminari-views/tree/master/app/views/kaminari/_#{key}.html.erb", "app/views/kaminari/_#{key}.html.erb"
 end
 
 # config/deploy
