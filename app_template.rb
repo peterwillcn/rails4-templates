@@ -2,7 +2,7 @@
 # Application Template
 #
 
-repo_url = "https://raw.github.com/mtfuji/rails3_template/master"
+repo_url = "https://raw.github.com/mtfuji/rails3-templates/master"
 gems = {}
 
 @app_name = app_name
