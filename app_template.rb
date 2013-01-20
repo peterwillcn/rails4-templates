@@ -87,15 +87,14 @@ get "#{repo_url}/gitignore", ".gitignore"
 remove_file "public/index.html"
 remove_file "app/assets//images/rails.png"
 
-# bundler
-empty_directory ".bundle"
-get "#{repo_url}/bundle.config", ".bundle"
-
 # views
 empty_directory "app/views/kaminari"
 %w(first_page gap last_page next_page page paginator prev_page).each do |key|
   get "https://github.com/gabetax/twitter-bootstrap-kaminari-views/tree/master/app/views/kaminari/_#{key}.html.erb", "app/views/kaminari/_#{key}.html.erb"
 end
+
+# helpers
+get "#{repo_url}/app/helpers/application_helper.rb", "app/helpers/application_helper.rb"
 
 # config/deploy
 empty_directory "config/deploy"
@@ -145,9 +144,10 @@ get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", "lib/te
 
 #
 # Generators
-#
-p "rake bootstrap:install"
-p "rake bootstrap:layout application fixed"
-p "rake bootstrap:layout application fluid"
-p "rake rspec:install"
-p "rake rails_config:install"
+run "bundle install --path vendor/bundle"
+run "bundle exec rake bootstrap:install"
+run "bundle exec rake rails generate devise:install"
+run "bundle exec ./script/rails g devise MODEL"
+run "bundle exec rake rspec:install"
+run "bundle exec rake rails_config:install"
+run "echo 'bundle exec rake bootstrap:layout application (fixed|fluid)'"
