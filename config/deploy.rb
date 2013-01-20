@@ -25,10 +25,6 @@ namespace :deploy do
 end
 
 namespace :customs do
-  task :update_code do
-    run %|ln -s #{File.join(release_path,"config","database.yml.#{rails_env}")} #{File.join(release_path,"config","database.yml")}|
-  end
-  
   namespace :rake do
     desc "Run a task on a remote server."
     # run like: cap staging customs:rake:invoke task=a_certain_task
@@ -39,7 +35,6 @@ namespace :customs do
 end
 
 before "deploy:assets:precompile", "bundle:install"
-after "deploy:update_code", "customs:update_code"
 
 def confirm
   puts "\n\e[0;36m#{stage}\e[0m\e[0;31m Do you really deploy? (yes/no) \e[0m\n"

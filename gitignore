@@ -21,4 +21,4 @@ pickle-email-*.html
 .rvmrc
 *.swp
 *~
-/config/database.yml
+/config/settings.local.yml

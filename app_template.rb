@@ -42,6 +42,7 @@ gem_group :deployment do
 end
 
 gem_group :development do
+  gem 'better_errors'
   #gem 'pry-doc'
   gem 'pry-rails'
   gem 'rainbow'
@@ -114,13 +115,12 @@ get "#{repo_url}/config/initializers/quiet_assets.rb", "config/initializers/quie
 get "#{repo_url}/config/initializers/rainbow.rb", "config/initializers/rainbow.rb"
 
 # config/locales/ja.yml
-get "https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/ja.yml", "config/locales/ja.yml"
+get "https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml", "config/locales/ja.yml"
 get "https://gist.github.com/raw/3104030/d3cd6bf55bc905b89b6e08d9454a48c92b81bfdc/devise.ja.yml", "config/locales/devise.ja.yml"
 
 # config/database.yml
 remove_file "config/database.yml"
-get_and_gsub "#{repo_url}/config/database.example.yml", "config/database.example.yml"
-get_and_gsub "#{repo_url}/config/database.example.yml", "config/database.yml"
+get "#{repo_url}/config/database.yml", "config/database.yml"
 
 # config/deploy.rb
 get_and_gsub "#{repo_url}/config/deploy.rb", "config/deploy.rb"
@@ -133,6 +133,18 @@ insert_into_file "config/application.rb",
 insert_into_file "config/application.rb",
                  %(    config.i18n.default_locale = :ja\n),
                  after: "# config.i18n.default_locale = :de\n"
+
+# config/development.rb
+insert_into_file "config/development.rb",
+                 %(    config.action_mailer.default_url_options = { :host => 'localhost:3000' }\n),
+                 after: "# config.action_mailer.raise_delivery_errors = false\n"
+
+# config/settings
+empty_directory "config/settings"
+run "touch config/settings.yml"
+get "#{repo_url}/config/settings/development.yml", "config/settings/development.yml"
+get "#{repo_url}/config/settings/test.yml", "config/settings/test.yml"
+get_and_gsub "#{repo_url}/config/settings/production.yml", "config/settings/production.yml"
 
 # lib
 get "#{repo_url}/lib/sitemap.rb", "lib/sitemap.rb"
@@ -169,8 +181,8 @@ end
 #
 # Generators
 #
-p "bundle install --path vendor/bundle
-./script/rails g bootstrap:install
-./script/rails g devise:install
-./script/rails g devise User
+p "bundle install --path vendor/bundle\n
+./script/rails g bootstrap:install\n
+./script/rails g devise:install\n
+./script/rails g devise User\n
 ./script/rails g bootstrap:layout application (fixed|fluid)"
