@@ -19,6 +19,9 @@ end
 # pagination
 gem 'kaminari'
 
+# pagination
+gem 'devise'
+
 # config
 gem 'rails_config'
 
@@ -39,7 +42,7 @@ gem_group :deployment do
 end
 
 gem_group :development do
-  gem 'pry-doc'
+  #gem 'pry-doc'
   gem 'pry-rails'
   gem 'rainbow'
   gem 'tapp'
@@ -49,15 +52,15 @@ gem_group :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'guard-rspec'
+  gem 'guard-spork'
   gem 'rspec-rails'
-  gem 'sqlite3'
 end
 
 gem_group :development, :test do
   gem 'debugger'
-  gem 'guard-rspec'
-  gem 'guard-spork'
   gem 'rb-fsevent', :require => false
+  gem 'sqlite3'
   gem 'thin'
 end
 
@@ -107,7 +110,6 @@ empty_directory "config/deploy"
 get "#{repo_url}/config/deploy/production.rb", "config/deploy/production.rb"
 
 # config/initializers
-get "#{repo_url}/config/initializers/config.rb", "config/initializers/config.rb"
 get "#{repo_url}/config/initializers/quiet_assets.rb", "config/initializers/quiet_assets.rb"
 get "#{repo_url}/config/initializers/rainbow.rb", "config/initializers/rainbow.rb"
 
@@ -148,6 +150,11 @@ get "#{repo_url}/lib/templates/erb/scaffold/new.html.erb", "lib/templates/erb/sc
 get "#{repo_url}/lib/templates/erb/scaffold/show.html.erb", "lib/templates/erb/scaffold/show.html.erb"
 get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", "lib/templates/rails/scaffold_controller/controller.rb"
 
+# rspec
+empty_directory "spec/factories"
+get "#{repo_url}/rspec", ".rspec"
+get "#{repo_url}/spec/factories.rb", "spec/factories.rb"
+
 #
 # Git
 #
@@ -163,9 +170,7 @@ end
 # Generators
 #
 p "bundle install --path vendor/bundle
-bundle exec rake bootstrap:install
-bundle exec rake rails_config:install
-bundle exec rake rspec:install
-echo bundle exec rake rails generate devise:install
-echo bundle exec ./script/rails g devise User
-bundle exec rake bootstrap:layout application (fixed|fluid)"
+./script/rails g bootstrap:install
+./script/rails g devise:install
+./script/rails g devise User
+./script/rails g bootstrap:layout application (fixed|fluid)"
