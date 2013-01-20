@@ -10,7 +10,6 @@ gems = {}
 def get_and_gsub(source_path, local_path)
   get source_path, local_path
   gsub_file local_path, /%app_name%/, @app_name
-  gsub_file local_path, /%app_name_classify%/, @app_name.classify
 end
 
 #
@@ -26,6 +25,9 @@ gem 'rails_config'
 # twitter bootstrap
 gem 'less-rails'
 gem 'twitter-bootstrap-rails', group: 'assets'
+
+# admin
+gem 'rails_admin'
 
 # sitemap.xml
 gem 'xml-sitemap'
@@ -87,6 +89,9 @@ get "#{repo_url}/gitignore", ".gitignore"
 remove_file "public/index.html"
 remove_file "app/assets//images/rails.png"
 
+# bundler
+get "#{repo_url}/bundle.config", ".bundle/config"
+
 # views
 empty_directory "app/views/kaminari"
 %w(first_page gap last_page next_page page paginator prev_page).each do |key|
@@ -94,6 +99,7 @@ empty_directory "app/views/kaminari"
 end
 
 # helpers
+remove_file "app/helpers/application_helper.rb"
 get "#{repo_url}/app/helpers/application_helper.rb", "app/helpers/application_helper.rb"
 
 # config/deploy
@@ -143,11 +149,23 @@ get "#{repo_url}/lib/templates/erb/scaffold/show.html.erb", "lib/templates/erb/s
 get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", "lib/templates/rails/scaffold_controller/controller.rb"
 
 #
+# Git
+#
+git :init
+git :add => '.'
+git :commit => '-am "Initial commit"'
+
+if @deploy_via_remote && @remote_repo
+  git :remote => "add origin git@bitbucket.org:workbrew/#@app_name.git"
+end
+
+#
 # Generators
-run "bundle install --path vendor/bundle"
-run "bundle exec rake bootstrap:install"
-run "bundle exec rake rails generate devise:install"
-run "bundle exec ./script/rails g devise MODEL"
-run "bundle exec rake rspec:install"
-run "bundle exec rake rails_config:install"
-run "echo 'bundle exec rake bootstrap:layout application (fixed|fluid)'"
+#
+p "bundle install --path vendor/bundle
+bundle exec rake bootstrap:install
+bundle exec rake rails_config:install
+bundle exec rake rspec:install
+echo bundle exec rake rails generate devise:install
+echo bundle exec ./script/rails g devise User
+bundle exec rake bootstrap:layout application (fixed|fluid)"
