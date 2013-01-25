@@ -14,7 +14,7 @@ def fixture_entry(table_name, obj)
   res.join("\n")
 end
 
-namespace :cw do
+namespace :customs do
   fixtures_dir = "#{::Rails.root}/tmp/fixtures/"
   namespace :fixtures do
     desc "Extract database data to the tmp/fixtures/ directory. Use FIXTURES=table_name[,table_name...] to specify table names to extract. Otherwise, all the table data will be extracted."
