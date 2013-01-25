@@ -9,7 +9,7 @@ set :rvm_type, :system                         # Copy the exact line. I really m
 set :application, "%app_name%"
 set :scm, :git
 set :repository,  "git://github.com/mtfuji/%app_name%.git"
-set :deploy_via, :remote_cache
+#set :deploy_via, :remote_cache
 set :copy_exclude, %w(.git .gitignore doc features log spec test tmp Capfile)
 
 set :use_sudo, false
@@ -33,8 +33,6 @@ namespace :customs do
     end
   end
 end
-
-before "deploy:assets:precompile", "bundle:install"
 
 def confirm
   puts "\n\e[0;36m#{stage}\e[0m\e[0;31m Do you really deploy? (yes/no) \e[0m\n"
