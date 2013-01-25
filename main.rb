@@ -47,6 +47,7 @@ gem_group :development do
   gem 'pry-rails'
   gem 'rainbow'
   gem 'tapp'
+  gem 'quiet_assets'
 end
 
 gem_group :test do
