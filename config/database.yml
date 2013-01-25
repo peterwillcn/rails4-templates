@@ -3,7 +3,7 @@
 #
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
-development: &global
+development: &defaults
 <% Settings.database.map do |k, v| %>
   <%= k.to_s %>: <%= v %>
 <% end %>
@@ -12,7 +12,7 @@ development: &global
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  << *global
+  <<: *defaults
 
 production:
-  << *global
+  <<: *defaults
