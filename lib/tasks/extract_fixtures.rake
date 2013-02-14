@@ -41,18 +41,26 @@ namespace :customs do
       end
     end
     
-    desc "Load data in spec/fixtures dir to db. Use FIXTURES=table_name[,table_name...] to specify table names to load."
+    desc "Load data in tmp/fixtures dir to db. Use FIXTURES=table_name[,table_name...] to specify table names to load."
     task :load => :environment do
       if ENV['FIXTURES']
         ENV['FIXTURES'].split(/,/).each do |table_name|
           p "load #{table_name}."
-          ActiveRecord::Base.connection.execute("TRUNCATE #{table_name}")
-          ActiveRecord::Fixtures.create_fixtures("#{::Rails.root}/spec/fixtures", table_name)
+          if YAML.load_file("#{Rails.root}/config/database.yml")[Rails.env]['adapter'] == 'sqlite3'
+            ActiveRecord::Base.connection.execute("DELETE FROM #{table_name}")
+          else
+            ActiveRecord::Base.connection.execute("TRUNCATE #{table_name}")
+          end
+          begin
+            ActiveRecord::Fixtures.create_fixtures("#{::Rails.root}/tmp/fixtures", table_name)
+          rescue NameError
+            Fixtures.create_fixtures("#{::Rails.root}/tmp/fixtures", table_name)
+          end
         end
       end
     end
     
-    desc "Export database data to the spec/fixtures/ directory. Use FIXTURES=table_name[,table_name...] to specify table names to extract."
+    desc "Export database data to the tmp/fixtures/ directory. Use FIXTURES=table_name[,table_name...] to specify table names to extract."
     task :seed => :environment do
       sql = "SELECT * FROM %s ORDER BY id"
       if ENV['FIXTURES']
