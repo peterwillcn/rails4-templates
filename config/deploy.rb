@@ -14,7 +14,7 @@ set :copy_exclude, %w(.git .gitignore doc features log spec test tmp Capfile)
 
 set :use_sudo, false
 
-set :stages, %w(production)
+set :stages, %w(staging production)
 
 namespace :deploy do
   task :start do ; end
@@ -25,6 +25,12 @@ namespace :deploy do
 end
 
 namespace :customs do
+  task :setup do
+    run "mkdir #{shared_path}/uploads"
+  end
+  task :update_code do
+    run "ln -nfs #{shared_path}/uploads #{release_path}/public/uploads"
+  end
   namespace :rake do
     desc "Run a task on a remote server."
     # run like: cap staging customs:rake:invoke task=a_certain_task
@@ -39,3 +45,6 @@ def confirm
   proceed = STDIN.gets rescue nil
   exit unless proceed.chomp! == "yes"
 end
+
+after "deploy:setup", "customs:setup"
+after "deploy:update_code", "customs:update_code"
