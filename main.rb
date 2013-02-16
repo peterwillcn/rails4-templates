@@ -45,7 +45,6 @@ gem_group :development do
   gem 'better_errors'
   #gem 'pry-doc'
   gem 'pry-rails'
-  gem 'rainbow'
   gem 'tapp'
   gem 'quiet_assets'
 end
