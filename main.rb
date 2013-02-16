@@ -116,7 +116,6 @@ get "#{repo_url}/config/deploy/production.rb", "config/deploy/production.rb"
 
 # config/initializers
 get "#{repo_url}/config/initializers/quiet_assets.rb", "config/initializers/quiet_assets.rb"
-get "#{repo_url}/config/initializers/rainbow.rb", "config/initializers/rainbow.rb"
 
 # config/locales/ja.yml
 get "https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml", "config/locales/ja.yml"
