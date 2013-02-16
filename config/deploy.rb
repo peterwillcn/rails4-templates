@@ -27,6 +27,7 @@ end
 namespace :customs do
   task :setup do
     run "mkdir #{shared_path}/uploads"
+    run "chmod g+w #{shared_path}/uploads"
   end
   task :update_code do
     run "ln -nfs #{shared_path}/uploads #{release_path}/public/uploads"
