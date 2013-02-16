@@ -97,6 +97,9 @@ remove_file "app/assets//images/rails.png"
 # bundler
 get "#{repo_url}/bundle.config", ".bundle/config"
 
+# capistrano
+get "#{repo_url}/Capfile", "Capfile"
+
 # views
 empty_directory "app/views/kaminari"
 %w(first_page gap last_page next_page page paginator prev_page).each do |key|
