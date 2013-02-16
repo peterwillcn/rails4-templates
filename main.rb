@@ -119,6 +119,7 @@ get "#{repo_url}/config/initializers/quiet_assets.rb", "config/initializers/quie
 # config/locales/ja.yml
 get "https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml", "config/locales/ja.yml"
 get "https://gist.github.com/raw/3104030/d3cd6bf55bc905b89b6e08d9454a48c92b81bfdc/devise.ja.yml", "config/locales/devise.ja.yml"
+get "https://gist.github.com/mshibuya/1662352/raw/a5ce6fb646d53ca44434a8b7ab238aeeb8791d27/rails_admin.ja.yml", "config/rails_admin.ja.yml"
 
 # config/database.yml
 remove_file "config/database.yml"
