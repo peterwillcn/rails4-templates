@@ -169,6 +169,7 @@ get "#{repo_url}/rspec", ".rspec"
 get "#{repo_url}/spec/factories.rb", "spec/factories.rb"
 
 # static files
+remove_file "public/favicon.ico"
 get "http://api.rubyonrails.org/favicon.ico", "public/favicon.ico"
 
 #
