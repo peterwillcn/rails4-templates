@@ -34,7 +34,7 @@ namespace :customs do
   end
   namespace :rake do
     desc "Run a task on a remote server."
-    # run like: cap staging customs:rake:invoke task=a_certain_task
+    # run like: cap staging customs:rake:invoke task='db:version'
     task :invoke, :roles => :db do
       run("cd #{current_path}; BUNDLE_GEMFILE=#{current_path}/Gemfile bundle exec rake #{ENV['task']} RAILS_ENV=#{rails_env}")
     end

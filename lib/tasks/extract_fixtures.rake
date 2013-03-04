@@ -1,17 +1,24 @@
-# encoding: utf-8
-
+# coding: utf-8
 require 'active_record/fixtures'
 
-def fixture_entry(table_name, obj)
-  res = []
-  klass = table_name.singularize.camelize.constantize
-  res << "#{table_name.singularize}#{obj['id']}:"
-  klass.columns.each do |column|
-    x = obj[column.name]
-    x = sprintf("\"%s\"", x.gsub(/"/, '\"')) if column.text? && !x.nil?
-    res << "  #{column.name}: #{x}"
+def fixture_entry(table_name, objects)
+  begin
+    klass = table_name.classify.constantize
+  rescue
+    Object.const_set table_name.classify, Class.new(ActiveRecord::Base) {
+      self.table_name = table_name
+    }
+    klass = table_name.classify.constantize
   end
-  res.join("\n")
+  res = {}
+  objects.each do |obj|
+    name = "#{table_name.singularize}#{obj['id']}"
+    res[name] = {}
+    klass.columns.each do |column|
+      res[name][column.name] = obj[column.name]
+    end
+  end
+  res.to_yaml
 end
 
 namespace :customs do
@@ -34,9 +41,7 @@ namespace :customs do
         p "extract #{table_name}."
         File.open("#{fixtures_dir}#{table_name}.yml", "w") do |file|
           objects  = ActiveRecord::Base.connection.select_all(sql % table_name)
-          objects.each do |obj|
-            file.write fixture_entry(table_name, obj) + "\n\n"
-          end
+          file.write fixture_entry(table_name, objects)
         end
       end
     end
@@ -68,9 +73,7 @@ namespace :customs do
           p "export #{table_name}."
           File.open("#{fixtures_dir}#{table_name}.yml", "w") do |file|
             objects  = ActiveRecord::Base.connection.select_all(sql % table_name)
-            objects.each do |obj|
-              file.write fixture_entry(table_name, obj) + "\n\n"
-            end
+            file.write fixture_entry(table_name, objects)
           end
         end
       end

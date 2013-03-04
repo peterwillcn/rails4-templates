@@ -1,3 +1,4 @@
+# coding: utf-8
 class <%= class_name.pluralize %>Controller < ApplicationController
   before_filter :set_<%= plural_name.singularize %>, only: [:show, :edit, :update, :destroy]
   

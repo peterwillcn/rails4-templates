@@ -43,6 +43,7 @@ end
 
 gem_group :development do
   gem 'better_errors'
+  gem 'meta_request'
   #gem 'pry-doc'
   gem 'pry-rails'
   gem 'tapp'
@@ -91,7 +92,7 @@ remove_file ".gitignore"
 get "#{repo_url}/gitignore", ".gitignore"
 
 remove_file "public/index.html"
-remove_file "app/assets//images/rails.png"
+remove_file "app/assets/images/rails.png"
 
 # bundler
 get "#{repo_url}/bundle.config", ".bundle/config"
@@ -112,9 +113,6 @@ get "#{repo_url}/app/helpers/application_helper.rb", "app/helpers/application_he
 # config/deploy
 empty_directory "config/deploy"
 get "#{repo_url}/config/deploy/production.rb", "config/deploy/production.rb"
-
-# config/initializers
-get "#{repo_url}/config/initializers/quiet_assets.rb", "config/initializers/quiet_assets.rb"
 
 # config/locales/ja.yml
 get "https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml", "config/locales/ja.yml"
@@ -170,6 +168,9 @@ empty_directory "spec/factories"
 get "#{repo_url}/rspec", ".rspec"
 get "#{repo_url}/spec/factories.rb", "spec/factories.rb"
 
+# static files
+get "http://api.rubyonrails.org/favicon.ico", "public/favicon.ico"
+
 #
 # Git
 #
@@ -178,5 +179,5 @@ git :add => '.'
 git :commit => '-am "Initial commit"'
 
 if @deploy_via_remote && @remote_repo
-  git :remote => "add origin git@bitbucket.org:workbrew/#@app_name.git"
+  git :remote => "add origin git://github.com/mtfuji/#@app_name.git"
 end

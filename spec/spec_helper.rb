@@ -49,7 +49,7 @@ Spork.prefork do
 
     # https://github.com/bmabey/database_cleaner    
     config.before(:suite) do
-      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.clean_with(:truncation)
     end
   
