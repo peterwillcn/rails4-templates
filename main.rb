@@ -95,6 +95,7 @@ remove_file "public/index.html"
 remove_file "app/assets/images/rails.png"
 
 # bundler
+empty_directory ".bundle"
 get "#{repo_url}/bundle.config", ".bundle/config"
 
 # capistrano
