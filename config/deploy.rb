@@ -3,7 +3,7 @@ require "capistrano_colors"
 require "bundler/capistrano"
 
 require "rvm/capistrano"                       # Load RVM"s capistrano plugin.
-set :rvm_ruby_string, "ruby-1.9.3"             # Or whatever env you want it to run in.
+set :rvm_ruby_string, "ruby-2.0.0"             # Or whatever env you want it to run in.
 set :rvm_type, :system                         # Copy the exact line. I really mean :system here
 
 set :application, "%app_name%"
@@ -11,6 +11,7 @@ set :scm, :git
 set :repository,  "git://github.com/mtfuji/%app_name%.git"
 #set :deploy_via, :remote_cache
 set :copy_exclude, %w(.git .gitignore doc features log spec test tmp Capfile)
+set :shared_children, shared_children + %w(public/uploads)
 
 set :use_sudo, false
 
@@ -25,13 +26,6 @@ namespace :deploy do
 end
 
 namespace :customs do
-  task :setup do
-    run "mkdir #{shared_path}/uploads"
-    run "chmod g+w #{shared_path}/uploads"
-  end
-  task :update_code do
-    run "ln -nfs #{shared_path}/uploads #{release_path}/public/uploads"
-  end
   namespace :rake do
     desc "Run a task on a remote server."
     # run like: cap staging customs:rake:invoke task='db:version'
@@ -46,6 +40,3 @@ def confirm
   proceed = STDIN.gets rescue nil
   exit unless proceed.chomp! == "yes"
 end
-
-after "deploy:setup", "customs:setup"
-after "deploy:update_code", "customs:update_code"
