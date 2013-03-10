@@ -104,7 +104,7 @@ get "#{repo_url}/Capfile", "Capfile"
 # views
 empty_directory "app/views/kaminari"
 %w(first_page gap last_page next_page page paginator prev_page).each do |key|
-  get "https://github.com/gabetax/twitter-bootstrap-kaminari-views/tree/master/app/views/kaminari/_#{key}.html.erb", "app/views/kaminari/_#{key}.html.erb"
+  get "https://raw.github.com/gabetax/twitter-bootstrap-kaminari-views/master/app/views/kaminari/_#{key}.html.erb", "app/views/kaminari/_#{key}.html.erb"
 end
 
 # helpers
