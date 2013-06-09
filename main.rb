@@ -16,23 +16,13 @@ end
 # Gemfile
 #
 
-# pagination
-gem 'kaminari'
-
-# pagination
+gem 'airbrake'
 gem 'devise'
-
-# config
-gem 'rails_config'
-
-# twitter bootstrap
+gem 'kaminari'
 gem 'less-rails'
-gem 'twitter-bootstrap-rails', group: 'assets'
-
-# admin
 gem 'rails_admin'
-
-# sitemap.xml
+gem 'rails_config'
+gem 'twitter-bootstrap-rails', group: 'assets'
 gem 'xml-sitemap'
 
 gem_group :deployment do
@@ -51,17 +41,21 @@ gem_group :development do
 end
 
 gem_group :test do
+  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'guard-cucumber'
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'rspec-rails'
+  gem 'simplecov'
 end
 
 gem_group :development, :test do
   gem 'debugger'
-  gem 'rb-fsevent', :require => false
+  gem 'rb-fsevent', require: false
+  gem 'spring'
   gem 'sqlite3'
   gem 'thin'
 end
@@ -177,9 +171,9 @@ get "http://api.rubyonrails.org/favicon.ico", "public/favicon.ico"
 # Git
 #
 git :init
-git :add => '.'
-git :commit => '-am "Initial commit"'
+git add: '.'
+git commit: '-am "Initial commit"'
 
 if @deploy_via_remote && @remote_repo
-  git :remote => "add origin git://github.com/mtfuji/#@app_name.git"
+  git remote: "add origin git://github.com/mtfuji/#@app_name.git"
 end
