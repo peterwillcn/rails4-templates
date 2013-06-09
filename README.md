@@ -1,7 +1,7 @@
 ## Usage
 
 ```bash
-rails new APP_PATH -m https://raw.github.com/mtfuji/rails3-templates/master/main.rb
+rails new APP_PATH -m https://raw.github.com/mtfuji/rails4-templates/master/main.rb
 ```
 
 ## After creating app

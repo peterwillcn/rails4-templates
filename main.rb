@@ -2,7 +2,7 @@
 # Application Template
 #
 
-repo_url = "https://raw.github.com/mtfuji/rails3-templates/master"
+repo_url = "https://raw.github.com/mtfuji/rails4-templates/master"
 gems = {}
 
 @app_name = app_name
@@ -29,7 +29,6 @@ gem_group :development do
   gem 'capistrano_colors'
   gem 'capistrano-ext'
   gem 'rvm-capistrano'
-  gem 'better_errors'
   gem 'meta_request'
   #gem 'pry-doc'
   gem 'pry-rails'
@@ -63,6 +62,7 @@ end
 
 comment_lines 'Gemfile', "gem 'sqlite3'"
 uncomment_lines 'Gemfile', "gem 'therubyracer'"
+uncomment_lines 'Gemfile', "gem 'turbolinks'"
 
 #
 # Files and Directories
