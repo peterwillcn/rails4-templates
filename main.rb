@@ -25,13 +25,10 @@ gem 'rails_config'
 gem 'twitter-bootstrap-rails', group: 'assets'
 gem 'xml-sitemap'
 
-gem_group :deployment do
+gem_group :development do
   gem 'capistrano_colors'
   gem 'capistrano-ext'
   gem 'rvm-capistrano'
-end
-
-gem_group :development do
   gem 'better_errors'
   gem 'meta_request'
   #gem 'pry-doc'
