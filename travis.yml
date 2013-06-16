@@ -1,8 +1,8 @@
 language: ruby
 rvm:
   - 2.0.0
-bundler_args: "--without development deployment"
+bundler_args: '--without development deployment'
 before_script:
-  - "cp config/database.example.yml config/database.yml"
+  - 'cp config/database.example.yml config/database.yml'
   - bundle exec rake db:test:prepare
 script: true

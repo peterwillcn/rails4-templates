@@ -48,13 +48,13 @@ class Sitemap
 
   def build_sitemap_index
     xml = Builder::XmlMarkup.new(indent: 2)
-    xml.instruct!(:xml, encoding: 'UTF-8', version: "1.0")
+    xml.instruct!(:xml, encoding: 'UTF-8', version: '1.0')
 
     xml.sitemapindex(xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9') do |sitemapindex|
       @sitemap_index.times do |i|
         sitemapindex.sitemap do |sitemap|
           sitemap.loc sitemap_url(i)
-          sitemap.lastmod Time.now.strftime("%F")
+          sitemap.lastmod Time.now.strftime('%F')
         end
       end
     end
@@ -63,14 +63,14 @@ class Sitemap
   end
 
   def sitemap_path(i)
-    Rails.root.join(@sitemap_path.join("/")).join("sitemap-#{i}.xml")
+    Rails.root.join(@sitemap_path.join('/')).join("sitemap-#{i}.xml")
   end
 
   def sitemapindex_path
-    Rails.root.join(SITEMAP_INDEX_PATH_DEFAULT.join("/")).join("sitemapindex.xml")
+    Rails.root.join(SITEMAP_INDEX_PATH_DEFAULT.join('/')).join('sitemapindex.xml')
   end
 
   def sitemap_url(i)
-    "http://#@host/#{@sitemap_path[1..-1].join("/")}/sitemap-#{i}.xml"
+    "http://#@host/#{@sitemap_path[1..-1].join('/')}/sitemap-#{i}.xml"
   end
 end

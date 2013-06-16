@@ -20,24 +20,24 @@ class <%= class_name.pluralize %>Controller < ApplicationController
     @<%= plural_name.singularize %> = <%= class_name %>.new(params[:<%= plural_name.singularize %>])
 
     if @<%= plural_name.singularize %>.save
-      redirect_to @<%= plural_name.singularize %>, notice: t("helpers.prompt.created", name: <%= class_name %>.model_name.human)
+      redirect_to @<%= plural_name.singularize %>, notice: t('helpers.prompt.created', name: <%= class_name %>.model_name.human)
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
   def update
     if @<%= plural_name.singularize %>.update_attributes(params[:<%= plural_name.singularize %>])
-      redirect_to @<%= plural_name.singularize %>, notice: t("helpers.prompt.updated", name: <%= class_name %>.model_name.human)
+      redirect_to @<%= plural_name.singularize %>, notice: t('helpers.prompt.updated', name: <%= class_name %>.model_name.human)
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
   def destroy
     @<%= plural_name.singularize %>.destroy
 
-    redirect_to action: "index"
+    redirect_to action: 'index'
   end
   
   
