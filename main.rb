@@ -23,7 +23,7 @@ gem 'less-rails'
 gem 'rails_admin'
 gem 'rails_config'
 gem 'twitter-bootstrap-rails', group: 'assets'
-gem 'xml-sitemap'
+#gem 'xml-sitemap'
 
 gem_group :development do
   gem 'capistrano_colors'
@@ -40,7 +40,7 @@ gem_group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'faker'
+  #gem 'faker'
   gem 'guard-cucumber'
   gem 'guard-rspec'
   gem 'guard-spork'
@@ -54,6 +54,7 @@ gem_group :development, :test do
   gem 'spring'
   gem 'sqlite3'
   gem 'thin'
+  #gem 'timecop'
 end
 
 gem_group :production do
@@ -62,7 +63,6 @@ end
 
 comment_lines 'Gemfile', "gem 'sqlite3'"
 uncomment_lines 'Gemfile', "gem 'therubyracer'"
-uncomment_lines 'Gemfile', "gem 'turbolinks'"
 
 #
 # Files and Directories
