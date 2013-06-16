@@ -22,6 +22,7 @@ gem 'kaminari'
 gem 'less-rails'
 gem 'rails_admin'
 gem 'rails_config'
+gem 'sass-rails', github: 'rails/sass-rails'
 gem 'twitter-bootstrap-rails', group: 'assets'
 #gem 'xml-sitemap'
 
@@ -62,6 +63,7 @@ gem_group :production do
 end
 
 comment_lines 'Gemfile', "gem 'sqlite3'"
+comment_lines 'Gemfile', "gem 'turbolinks'"
 uncomment_lines 'Gemfile', "gem 'therubyracer'"
 
 #
