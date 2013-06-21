@@ -73,9 +73,9 @@ uncomment_lines 'Gemfile', "gem 'therubyracer'"
 remove_dir 'test'
 
 application <<-APPEND_APPLICATION
-config.generators do |generate|
-      generate.test_framework   :rspec, fixture: false, views: false
-      generate.integration_tool :rspec, fixture: false, views: true
+config.generators do |g|
+      g.test_framework   :rspec, fixture: false, views: false
+      g.integration_tool :rspec, fixture: false, views: true
     end
 APPEND_APPLICATION
 
