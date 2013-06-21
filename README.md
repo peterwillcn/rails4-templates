@@ -8,8 +8,8 @@ rails new APP_PATH -m https://raw.github.com/mtfuji/rails4-templates/master/main
 
 ```bash
 bundle install
-./script/rails g bootstrap:install
-./script/rails g devise:install
-./script/rails g devise User
-./script/rails g bootstrap:layout application (fixed|fluid)
+./bin/rails g bootstrap:install
+./bin/rails g devise:install
+./bin/rails g devise User
+./bin/rails g bootstrap:layout application (fixed|fluid)
 ```
