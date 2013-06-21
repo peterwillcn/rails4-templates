@@ -74,8 +74,9 @@ remove_dir 'test'
 
 application <<-APPEND_APPLICATION
 config.generators do |g|
-      g.test_framework   :rspec, fixture: false, views: false
-      g.integration_tool :rspec, fixture: false, views: true
+      g.test_framework   :rspec, fixture: true, views: false
+      g.integration_tool :cucumber
+      g.fixture_replacement :factory_girl
     end
 APPEND_APPLICATION
 
