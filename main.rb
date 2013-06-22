@@ -119,7 +119,7 @@ get "#{repo_url}/config/locales/helpers.ja.yml", 'config/locales/helpers.ja.yml'
 
 # config/database.yml
 copy_file 'config/database.yml', 'config/database.example.yml'
-#remove_file 'config/database.yml'
+remove_file 'config/database.yml'
 get "#{repo_url}/config/database.yml", 'config/database.yml'
 
 # config/deploy.rb
