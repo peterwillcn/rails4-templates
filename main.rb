@@ -64,6 +64,9 @@ end
 comment_lines 'Gemfile', "gem 'sqlite3'"
 comment_lines 'Gemfile', "gem 'turbolinks'"
 uncomment_lines 'Gemfile', "gem 'therubyracer'"
+uncomment_lines 'app/assets/javascripts/application.js', '//= require turbolinks'
+#gsub_file 'app/assets/javascripts/application.js', /= require turbolinks/, '=# require turbolinks'
+gsub_file 'app/views/layouts/application.html.erb', /, "data-turbolinks-track" => true/, ''
 
 #
 # Files and Directories
@@ -97,7 +100,7 @@ get "#{repo_url}/Capfile", 'Capfile'
 # views
 empty_directory 'app/views/kaminari'
 %w(first_page gap last_page next_page page paginator prev_page).each do |key|
-  get "https://raw.github.com/gabetax/twitter-bootstrap-kaminari-views/master/app/views/kaminari/_#{key}.html.erb", "app/views/kaminari/_#{key}.html.erb"
+  get "https://raw.github.com/deeproot/twitter-bootstrap-kaminari-views-haml/master/app/views/kaminari/_#{key}.html.haml", "app/views/kaminari/_#{key}.html.haml"
 end
 
 # helpers
@@ -112,6 +115,7 @@ get "#{repo_url}/config/deploy/production.rb", 'config/deploy/production.rb'
 get 'https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml', 'config/locales/ja.yml'
 get 'https://gist.github.com/raw/3104030/d3cd6bf55bc905b89b6e08d9454a48c92b81bfdc/devise.ja.yml', 'config/locales/devise.ja.yml'
 get 'https://gist.github.com/mshibuya/1662352/raw/a5ce6fb646d53ca44434a8b7ab238aeeb8791d27/rails_admin.ja.yml', 'config/rails_admin.ja.yml'
+get "#{repo_url}/config/helpers.ja.yml", 'config/helpers.ja.yml'
 
 # config/database.yml
 remove_file 'config/database.yml'
@@ -148,13 +152,13 @@ get "#{repo_url}/lib/sitemap.rb", 'lib/sitemap.rb'
 get "#{repo_url}/lib/tasks/extract_fixtures.rake", 'lib/tasks/extract_fixtures.rake'
 
 # lib/templates
-empty_directory 'lib/templates/erb/scaffold'
+empty_directory 'lib/templates/haml/scaffold'
 empty_directory 'lib/templates/rails/scaffold_controller'
-get "#{repo_url}/lib/templates/erb/scaffold/_form.html.erb", 'lib/templates/erb/scaffold/_form.html.erb'
-get "#{repo_url}/lib/templates/erb/scaffold/index.html.erb", 'lib/templates/erb/scaffold/index.html.erb'
-get "#{repo_url}/lib/templates/erb/scaffold/edit.html.erb", 'lib/templates/erb/scaffold/edit.html.erb'
-get "#{repo_url}/lib/templates/erb/scaffold/new.html.erb", 'lib/templates/erb/scaffold/new.html.erb'
-get "#{repo_url}/lib/templates/erb/scaffold/show.html.erb", 'lib/templates/erb/scaffold/show.html.erb'
+get "#{repo_url}/lib/templates/haml/scaffold/_form.html.haml", 'lib/templates/haml/scaffold/_form.html.haml'
+get "#{repo_url}/lib/templates/haml/scaffold/index.html.haml", 'lib/templates/haml/scaffold/index.html.haml'
+get "#{repo_url}/lib/templates/haml/scaffold/edit.html.haml", 'lib/templates/haml/scaffold/edit.html.haml'
+get "#{repo_url}/lib/templates/haml/scaffold/new.html.haml", 'lib/templates/haml/scaffold/new.html.haml'
+get "#{repo_url}/lib/templates/haml/scaffold/show.html.haml", 'lib/templates/haml/scaffold/show.html.haml'
 get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", 'lib/templates/rails/scaffold_controller/controller.rb'
 
 # rspec

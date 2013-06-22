@@ -1,0 +1,11 @@
+%p#notice= notice
+
+<% for attribute in attributes -%>
+%dl.dl-horizontal
+  %dt= t 'activerecord.attributes.<%= singular_table_name %>.<%= attribute.name %>'
+  %dd= @<%= singular_table_name %>.<%= attribute.name %>
+<% end -%>
+
+= link_to t('helpers.submit.edit'), edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: 'btn btn-primary'
+\|
+= link_to t('helpers.submit.back'), <%= index_helper %>_path, class: 'btn btn-primary'

@@ -1,0 +1,10 @@
+ja:
+  helpers:
+    submit:
+      show: 表示
+      edit: 編集
+      destroy: 削除
+    prompt:
+      confirm:
+        destroy: 削除してよろしいですか?
+      updated: 更新しました
