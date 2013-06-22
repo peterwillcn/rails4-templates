@@ -176,7 +176,7 @@ get 'http://4.bp.blogspot.com/-S5WVH9zVULA/UMHpxhJuZkI/AAAAAAAAAa4/w6LeyOLDfio/s
 get 'http://www.usahostingservices.com/pics/1-rubyonrails.PNG', 'app/assets/images/apple-touch-icon-precomposed.png'
 gsub_file 'app/assets/javascripts/application.js', /turbolinks/, 'bootstrap'
 append_to_file 'app/assets/stylesheets/application.css', '@import "bootstrap";'
-run 'app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss'
+run 'mv app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss'
 
 #
 # Git
