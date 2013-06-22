@@ -3,8 +3,11 @@ development: &defaults
   <%= k.to_s %>: <%= v %>
 <% end %>
 
-test:
+test: &test
   <<: *defaults
+
+cucumber:
+  <<: *test
 
 production:
   <<: *defaults

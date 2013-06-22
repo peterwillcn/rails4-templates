@@ -1,5 +1,5 @@
 class <%= class_name.pluralize %>Controller < ApplicationController
-  before_filter :set_<%= plural_name.singularize %>, only: [:show, :edit, :update, :destroy]
+  before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy]
   
   def index
     @<%= plural_name %> = <%= class_name %>.page
@@ -9,32 +9,32 @@ class <%= class_name.pluralize %>Controller < ApplicationController
   end
 
   def new
-    @<%= plural_name.singularize %> = <%= class_name %>.new
+    @<%= singular_name %> = <%= class_name %>.new
   end
 
   def edit
   end
 
   def create
-    @<%= plural_name.singularize %> = <%= class_name %>.new(<%= plural_name.singularize %>_params)
+    @<%= singular_name %> = <%= class_name %>.new(<%= singular_name %>_params)
 
-    if @<%= plural_name.singularize %>.save
-      redirect_to @<%= plural_name.singularize %>, notice: t('helpers.prompt.created', name: <%= class_name %>.model_name.human)
+    if @<%= singular_name %>.save
+      redirect_to @<%= singular_name %>, notice: t('helpers.prompt.created', name: <%= class_name %>.model_name.human)
     else
       render action: 'new'
     end
   end
 
   def update
-    if @<%= plural_name.singularize %>.update_attributes(<%= plural_name.singularize %>_params)
-      redirect_to @<%= plural_name.singularize %>, notice: t('helpers.prompt.updated', name: <%= class_name %>.model_name.human)
+    if @<%= singular_name %>.update(<%= singular_name %>_params)
+      redirect_to @<%= singular_name %>, notice: t('helpers.prompt.updated', name: <%= class_name %>.model_name.human)
     else
       render action: 'edit'
     end
   end
 
   def destroy
-    @<%= plural_name.singularize %>.destroy
+    @<%= singular_name %>.destroy
 
     redirect_to action: 'index'
   end
@@ -42,11 +42,11 @@ class <%= class_name.pluralize %>Controller < ApplicationController
   
   private
   
-  def set_<%= plural_name.singularize %>
-    @<%= plural_name.singularize %> = <%= class_name %>.find(params[:id])
-  end
-  
-  def <%= plural_name.singularize %>_params
-    params.require(:<%= plural_name.singularize %>).permit(<%= attributes.map { |attribute| attribute.name.to_sym }.join(', ')  %>)
-  end
+    def set_<%= singular_name %>
+      @<%= singular_name %> = <%= class_name %>.find(params[:id])
+    end
+    
+    def <%= singular_name %>_params
+      params.require(:<%= singular_name %>).permit(<%= attributes.map { |attribute| ":#{attribute.name}" }.join(', ')  %>)
+    end
 end

@@ -19,10 +19,9 @@ end
 gem 'airbrake'
 gem 'devise'
 gem 'kaminari'
-gem 'less-rails'
-#gem 'rails_admin', branch: 'rails-4'
 gem 'rails_config'
-gem 'twitter-bootstrap-rails', group: 'assets'
+gem 'sass-rails-bootstrap', :git => 'https://github.com/voidseeker/sass-rails-bootstrap.git'
+#gem 'rails_admin', branch: 'rails-4'
 #gem 'xml-sitemap'
 
 gem_group :development do
@@ -37,15 +36,15 @@ gem_group :development do
 end
 
 gem_group :test do
-  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'shoulda-matchers'
   gem 'factory_girl_rails'
+  gem 'cucumber-rails', require: false
   #gem 'faker'
-  gem 'guard-cucumber'
-  gem 'guard-rspec'
-  gem 'guard-spork'
-  gem 'rspec-rails'
   gem 'simplecov'
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
+  gem 'guard-spork'
 end
 
 gem_group :development, :test do
@@ -54,6 +53,7 @@ gem_group :development, :test do
   gem 'spring'
   gem 'sqlite3'
   gem 'thin'
+  gem 'rspec-rails'
   #gem 'timecop'
 end
 
@@ -77,9 +77,10 @@ remove_dir 'test'
 
 application <<-APPEND_APPLICATION
 config.generators do |g|
-      g.test_framework   :rspec, fixture: true, views: false
-      g.integration_tool :cucumber
-      g.fixture_replacement :factory_girl
+      g.template_engine     :haml
+      g.test_framework      :rspec, fixture: true, views: false
+      g.integration_tool    :cucumber
+      g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
 APPEND_APPLICATION
 
@@ -118,9 +119,12 @@ get 'https://gist.github.com/mshibuya/1662352/raw/a5ce6fb646d53ca44434a8b7ab238a
 get "#{repo_url}/config/locales/helpers.ja.yml", 'config/locales/helpers.ja.yml'
 
 # config/database.yml
-copy_file 'config/database.yml', 'config/database.example.yml'
-remove_file 'config/database.yml'
-get "#{repo_url}/config/database.yml", 'config/database.yml'
+gsub_file 'config/database.yml', /^test:$/, 'test: &test'
+insert_into_file 'config/database.yml',
+                 %(cucumber:\n  <<: *test\n\n),
+                 before: 'production:'
+run 'cp config/database.yml config/database.example.yml'
+#get "#{repo_url}/config/database.yml", 'config/database.yml'
 
 # config/deploy.rb
 get_and_gsub "#{repo_url}/config/deploy.rb", 'config/deploy.rb'
@@ -136,7 +140,7 @@ insert_into_file 'config/application.rb',
 
 # config/environments/development.rb
 insert_into_file 'config/environments/development.rb',
-                 %(    config.action_mailer.default_url_options = Settings.action_mailer.default_url_options.to_hash\n),
+                 %(    config.action_mailer.delivery_method = :file\n    config.action_mailer.default_url_options = Settings.action_mailer.default_url_options.to_hash\n),
                  after: "# config.action_mailer.raise_delivery_errors = false\n"
 
 # config/settings
@@ -163,14 +167,17 @@ get "#{repo_url}/lib/templates/haml/scaffold/show.html.haml", 'lib/templates/ham
 get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", 'lib/templates/rails/scaffold_controller/controller.rb'
 
 # rspec
-empty_directory 'spec/factories'
 get "#{repo_url}/rspec", '.rspec'
 get "#{repo_url}/spec/factories.rb", 'spec/factories.rb'
 
 # static files
 remove_file 'public/favicon.ico'
-get 'http://api.rubyonrails.org/favicon.ico', 'public/favicon.ico'
+get 'http://api.rubyonrails.org/favicon.ico', 'assets/images/favicon.ico'
 get "#{repo_url}/travis.yml", '.travis.yml'
+get 'http://newrelic.com/assets/pages/application_monitoring/logos/lang_ruby.png', 'assets/images/apple-touch-icon-144x144-precomposed.png'
+get 'https://fbexternal-a.akamaihd.net/safe_image.php?d=AQDXiqes17_vjH3T&w=155&h=114&url=http%3A%2F%2Fcdn.tutsplus.com%2Fnet.tutsplus.com%2Fauthors%2Fjeffreyway%2Frails-history-preview-image.png', 'assets/images/apple-touch-icon-114x114-precomposed.png'
+get 'http://4.bp.blogspot.com/-S5WVH9zVULA/UMHpxhJuZkI/AAAAAAAAAa4/w6LeyOLDfio/s72-c/150px-Ruby_on_Rails.svg.png', 'assets/images/apple-touch-icon-72x72-precomposed.png'
+get 'http://www.usahostingservices.com/pics/1-rubyonrails.PNG', 'assets/images/apple-touch-icon-precomposed.png'
 
 #
 # Git
