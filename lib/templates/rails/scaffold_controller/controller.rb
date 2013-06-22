@@ -19,7 +19,7 @@ class <%= class_name.pluralize %>Controller < ApplicationController
     @<%= singular_name %> = <%= class_name %>.new(<%= singular_name %>_params)
 
     if @<%= singular_name %>.save
-      redirect_to @<%= singular_name %>, notice: t('helpers.prompt.created', name: <%= class_name %>.model_name.human)
+      redirect_to @<%= singular_name %>, notice: t('helpers.notice.created', name: <%= class_name %>.model_name.human)
     else
       render action: 'new'
     end
@@ -27,7 +27,7 @@ class <%= class_name.pluralize %>Controller < ApplicationController
 
   def update
     if @<%= singular_name %>.update(<%= singular_name %>_params)
-      redirect_to @<%= singular_name %>, notice: t('helpers.prompt.updated', name: <%= class_name %>.model_name.human)
+      redirect_to @<%= singular_name %>, notice: t('helpers.notice.updated', name: <%= class_name %>.model_name.human)
     else
       render action: 'edit'
     end

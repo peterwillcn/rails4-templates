@@ -20,7 +20,10 @@ gem 'airbrake'
 gem 'devise'
 gem 'kaminari'
 gem 'rails_config'
-gem 'sass-rails-bootstrap', :git => 'https://github.com/voidseeker/sass-rails-bootstrap.git'
+gem 'haml-rails'
+gem 'sass-rails-bootstrap'
+gem 'twitter-bootstrap-rails'
+gem 'less-rails'
 #gem 'rails_admin', branch: 'rails-4'
 #gem 'xml-sitemap'
 
@@ -64,8 +67,7 @@ end
 comment_lines 'Gemfile', "gem 'sqlite3'"
 comment_lines 'Gemfile', "gem 'turbolinks'"
 uncomment_lines 'Gemfile', "gem 'therubyracer'"
-uncomment_lines 'app/assets/javascripts/application.js', '//= require turbolinks'
-#gsub_file 'app/assets/javascripts/application.js', /= require turbolinks/, '=# require turbolinks'
+gsub_file 'app/assets/javascripts/application.js', /= require turbolinks/, '=# require turbolinks'
 gsub_file 'app/views/layouts/application.html.erb', /, "data-turbolinks-track" => true/, ''
 
 #
@@ -77,7 +79,7 @@ remove_dir 'test'
 
 application <<-APPEND_APPLICATION
 config.generators do |g|
-      g.template_engine     :haml
+      #g.template_engine     :haml
       g.test_framework      :rspec, fixture: true, views: false
       g.integration_tool    :cucumber
       g.fixture_replacement :factory_girl, dir: 'spec/factories'

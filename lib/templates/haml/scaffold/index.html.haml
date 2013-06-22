@@ -1,4 +1,4 @@
-%h2= t 'helpers.prompt.listing', name: <%= class_name %>.model_name.human
+%h2= t 'helpers.titles.listing', name: <%= class_name %>.model_name.human
 
 %table.table.table-striped
   %tr
@@ -14,8 +14,8 @@
 <% for attribute in attributes -%>
       %td= <%= singular_table_name %>.<%= attribute.name %>
 <% end -%>
-      %td= link_to t('helpers.submit.show'), <%= singular_table_name %>
-      %td= link_to t('helpers.submit.edit'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>)
-      %td= link_to t('helpers.submit.destroy'), <%= singular_table_name %>, method: :delete, data: { confirm: t('helpers.prompt.confirm.destroy') }
+      %td= link_to t('helpers.links.show'), <%= singular_table_name %>
+      %td= link_to t('helpers.links.edit'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>)
+      %td= link_to t('helpers.links.destroy'), <%= singular_table_name %>, method: :delete, data: { confirm: t('helpers.prompt.confirm.destroy') }
 
-= link_to t('helpers.submit.new'), new_<%= singular_table_name %>_path, class: 'btn btn-primary'
+= link_to t('helpers.links.new'), new_<%= singular_table_name %>_path, class: 'btn btn-primary'

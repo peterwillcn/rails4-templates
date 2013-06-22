@@ -1,16 +1,18 @@
 ja:
   helpers:
-    submit:
+    links:
       show: 表示
       edit: 編集
       destroy: 削除
       back: 戻る
       new: 新規作成
     prompt:
+      confirm:
+        destroy: 削除してよろしいですか?
+    titles:
       listing: 一覧
       new: 新規作成
       editing: 編集
-      confirm:
-        destroy: 削除してよろしいですか?
+    notice:
       created: 作成しました
       updated: 更新しました
