@@ -23,7 +23,7 @@ gem 'rails_config'
 gem 'haml-rails'
 #gem 'twitter-bootstrap-rails'
 #gem 'less-rails'
-gem 'sass-rails-bootstrap'
+gem 'bootstrap-sass'
 #gem 'rails_admin', branch: 'rails-4'
 #gem 'xml-sitemap'
 
@@ -67,8 +67,6 @@ end
 comment_lines 'Gemfile', "gem 'sqlite3'"
 comment_lines 'Gemfile', "gem 'turbolinks'"
 uncomment_lines 'Gemfile', "gem 'therubyracer'"
-gsub_file 'app/assets/javascripts/application.js', /= require turbolinks/, '=# require turbolinks'
-gsub_file 'app/views/layouts/application.html.erb', /, "data-turbolinks-track" => true/, ''
 
 #
 # Files and Directories
@@ -101,7 +99,7 @@ get "#{repo_url}/Capfile", 'Capfile'
 
 # views
 remove_file 'app/views/layouts/application.html.erb'
-get "#{repo_url}/app/views/layouts/application.html.haml", 'app/views/layouts/application.html.haml'
+get_and_gsub "#{repo_url}/app/views/layouts/application.html.haml", 'app/views/layouts/application.html.haml'
 %w(first_page gap last_page next_page page paginator prev_page).each do |key|
   get "https://raw.github.com/deeproot/twitter-bootstrap-kaminari-views-haml/master/app/views/kaminari/_#{key}.html.haml", "app/views/kaminari/_#{key}.html.haml"
 end
@@ -176,6 +174,9 @@ get 'http://newrelic.com/assets/pages/application_monitoring/logos/lang_ruby.png
 get 'https://fbexternal-a.akamaihd.net/safe_image.php?d=AQDXiqes17_vjH3T&w=155&h=114&url=http%3A%2F%2Fcdn.tutsplus.com%2Fnet.tutsplus.com%2Fauthors%2Fjeffreyway%2Frails-history-preview-image.png', 'app/assets/images/apple-touch-icon-114x114-precomposed.png'
 get 'http://4.bp.blogspot.com/-S5WVH9zVULA/UMHpxhJuZkI/AAAAAAAAAa4/w6LeyOLDfio/s72-c/150px-Ruby_on_Rails.svg.png', 'app/assets/images/apple-touch-icon-72x72-precomposed.png'
 get 'http://www.usahostingservices.com/pics/1-rubyonrails.PNG', 'app/assets/images/apple-touch-icon-precomposed.png'
+gsub_file 'app/assets/javascripts/application.js', /turbolinks/, 'bootstrap'
+append_to_file 'app/assets/stylesheets/application.css', '@import "bootstrap";'
+run 'app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss'
 
 #
 # Git
