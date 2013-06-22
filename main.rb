@@ -21,9 +21,9 @@ gem 'devise'
 gem 'kaminari'
 gem 'rails_config'
 gem 'haml-rails'
+#gem 'twitter-bootstrap-rails'
+#gem 'less-rails'
 gem 'sass-rails-bootstrap'
-gem 'twitter-bootstrap-rails'
-gem 'less-rails'
 #gem 'rails_admin', branch: 'rails-4'
 #gem 'xml-sitemap'
 
@@ -94,14 +94,14 @@ remove_file 'public/index.html'
 remove_file 'app/assets/images/rails.png'
 
 # bundler
-empty_directory '.bundle'
 get "#{repo_url}/bundle.config", '.bundle/config'
 
 # capistrano
 get "#{repo_url}/Capfile", 'Capfile'
 
 # views
-empty_directory 'app/views/kaminari'
+remove_file 'app/views/layouts/application.html.erb'
+get "#{repo_url}/app/views/layouts/application.html.haml", 'app/views/layouts/application.html.haml'
 %w(first_page gap last_page next_page page paginator prev_page).each do |key|
   get "https://raw.github.com/deeproot/twitter-bootstrap-kaminari-views-haml/master/app/views/kaminari/_#{key}.html.haml", "app/views/kaminari/_#{key}.html.haml"
 end
@@ -111,7 +111,6 @@ remove_file 'app/helpers/application_helper.rb'
 get "#{repo_url}/app/helpers/application_helper.rb", 'app/helpers/application_helper.rb'
 
 # config/deploy
-empty_directory 'config/deploy'
 get "#{repo_url}/config/deploy/production.rb", 'config/deploy/production.rb'
 
 # config/locales/ja.yml
@@ -146,7 +145,6 @@ insert_into_file 'config/environments/development.rb',
                  after: "# config.action_mailer.raise_delivery_errors = false\n"
 
 # config/settings
-empty_directory 'config/settings'
 run 'touch config/settings.yml'
 get "#{repo_url}/config/settings/development.yml", 'config/settings/development.yml'
 get "#{repo_url}/config/settings/test.yml", 'config/settings/test.yml'
@@ -159,8 +157,6 @@ get "#{repo_url}/lib/sitemap.rb", 'lib/sitemap.rb'
 get "#{repo_url}/lib/tasks/extract_fixtures.rake", 'lib/tasks/extract_fixtures.rake'
 
 # lib/templates
-empty_directory 'lib/templates/haml/scaffold'
-empty_directory 'lib/templates/rails/scaffold_controller'
 get "#{repo_url}/lib/templates/haml/scaffold/_form.html.haml", 'lib/templates/haml/scaffold/_form.html.haml'
 get "#{repo_url}/lib/templates/haml/scaffold/index.html.haml", 'lib/templates/haml/scaffold/index.html.haml'
 get "#{repo_url}/lib/templates/haml/scaffold/edit.html.haml", 'lib/templates/haml/scaffold/edit.html.haml'
@@ -174,12 +170,12 @@ get "#{repo_url}/spec/factories.rb", 'spec/factories.rb'
 
 # static files
 remove_file 'public/favicon.ico'
-get 'http://api.rubyonrails.org/favicon.ico', 'assets/images/favicon.ico'
+get 'http://api.rubyonrails.org/favicon.ico', 'app/assets/images/favicon.ico'
 get "#{repo_url}/travis.yml", '.travis.yml'
-get 'http://newrelic.com/assets/pages/application_monitoring/logos/lang_ruby.png', 'assets/images/apple-touch-icon-144x144-precomposed.png'
-get 'https://fbexternal-a.akamaihd.net/safe_image.php?d=AQDXiqes17_vjH3T&w=155&h=114&url=http%3A%2F%2Fcdn.tutsplus.com%2Fnet.tutsplus.com%2Fauthors%2Fjeffreyway%2Frails-history-preview-image.png', 'assets/images/apple-touch-icon-114x114-precomposed.png'
-get 'http://4.bp.blogspot.com/-S5WVH9zVULA/UMHpxhJuZkI/AAAAAAAAAa4/w6LeyOLDfio/s72-c/150px-Ruby_on_Rails.svg.png', 'assets/images/apple-touch-icon-72x72-precomposed.png'
-get 'http://www.usahostingservices.com/pics/1-rubyonrails.PNG', 'assets/images/apple-touch-icon-precomposed.png'
+get 'http://newrelic.com/assets/pages/application_monitoring/logos/lang_ruby.png', 'app/assets/images/apple-touch-icon-144x144-precomposed.png'
+get 'https://fbexternal-a.akamaihd.net/safe_image.php?d=AQDXiqes17_vjH3T&w=155&h=114&url=http%3A%2F%2Fcdn.tutsplus.com%2Fnet.tutsplus.com%2Fauthors%2Fjeffreyway%2Frails-history-preview-image.png', 'app/assets/images/apple-touch-icon-114x114-precomposed.png'
+get 'http://4.bp.blogspot.com/-S5WVH9zVULA/UMHpxhJuZkI/AAAAAAAAAa4/w6LeyOLDfio/s72-c/150px-Ruby_on_Rails.svg.png', 'app/assets/images/apple-touch-icon-72x72-precomposed.png'
+get 'http://www.usahostingservices.com/pics/1-rubyonrails.PNG', 'app/assets/images/apple-touch-icon-precomposed.png'
 
 #
 # Git
