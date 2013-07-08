@@ -1,5 +1,5 @@
 !!! 5
-%html(lang='en')
+%html(lang='ja')
   %head
     %meta(charset='utf-8')
     %meta(http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1')
@@ -17,7 +17,7 @@
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
 
 
-  %body
+  %body{ class: "#{params[:controller]} #{params[:action]}" }
     .navbar.navbar-fluid-top
       .navbar-inner
         .container-fluid
@@ -25,7 +25,7 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.brand(href='#') Hoge
+          %a.brand(href='#') %app_name%
           .container.nav-collapse
             %ul.nav
               %li= link_to 'Link 1', '/path1'

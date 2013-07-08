@@ -17,13 +17,12 @@ end
 #
 
 gem 'airbrake'
-gem 'devise'
+gem 'devise', github: 'plataformatec/devise'
 gem 'kaminari'
 gem 'rails_config'
 gem 'haml-rails'
-#gem 'twitter-bootstrap-rails'
-#gem 'less-rails'
 gem 'bootstrap-sass'
+gem 'simple_form'
 #gem 'rails_admin', branch: 'rails-4'
 #gem 'xml-sitemap'
 
@@ -31,6 +30,7 @@ gem_group :development do
   gem 'capistrano_colors'
   gem 'capistrano-ext'
   gem 'rvm-capistrano'
+
   gem 'meta_request'
   #gem 'pry-doc'
   gem 'pry-rails'
@@ -44,7 +44,15 @@ gem_group :test do
   gem 'factory_girl_rails'
   gem 'cucumber-rails', require: false
   #gem 'faker'
-  gem 'simplecov'
+
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'selenium-webdriver'
+
+  gem "simplecov", require: false
+  gem 'simplecov-rcov', require: false
+
+  gem 'rb-fsevent', require: false
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-spork'
@@ -52,7 +60,6 @@ end
 
 gem_group :development, :test do
   gem 'debugger'
-  gem 'rb-fsevent', require: false
   gem 'spring'
   gem 'sqlite3'
   gem 'thin'
@@ -78,7 +85,7 @@ remove_dir 'test'
 application <<-APPEND_APPLICATION
 config.generators do |g|
       #g.template_engine     :haml
-      g.test_framework      :rspec, fixture: true, views: false
+      g.test_framework      :rspec, fixture: true, view_specs: false
       g.integration_tool    :cucumber
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
@@ -94,7 +101,7 @@ remove_file 'public/index.html'
 remove_file 'app/assets/images/rails.png'
 
 # bundler
-get "#{repo_url}/bundle.config", '.bundle/config'
+get_and_gsub "#{repo_url}/bundle.config", '.bundle/config'
 
 # capistrano
 get "#{repo_url}/Capfile", 'Capfile'
@@ -150,6 +157,9 @@ get "#{repo_url}/config/settings/development.yml", 'config/settings/development.
 get "#{repo_url}/config/settings/test.yml", 'config/settings/test.yml'
 get_and_gsub "#{repo_url}/config/settings/production.yml", 'config/settings/production.yml'
 
+# config/initializers
+get "#{repo_url}/config/initializers/errbit.rb", 'config/initializers/errbit.rb'
+
 # lib
 get "#{repo_url}/lib/sitemap.rb", 'lib/sitemap.rb'
 
@@ -167,6 +177,8 @@ get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", 'lib/te
 # rspec
 get "#{repo_url}/rspec", '.rspec'
 get "#{repo_url}/spec/factories.rb", 'spec/factories.rb'
+get "#{repo_url}/spec/spec_helper.rb", 'spec/spec_helper.rb'
+get "#{repo_url}/spec/support/controller_macros.rb", 'spec/support/controller_macros.rb'
 
 # static files
 remove_file 'public/favicon.ico'
@@ -180,13 +192,13 @@ gsub_file 'app/assets/javascripts/application.js', /turbolinks/, 'bootstrap'
 append_to_file 'app/assets/stylesheets/application.css', '@import "bootstrap";'
 run 'mv app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss'
 
+# remove .keep
+remove_file 'app/assets/images/.keep'
+remove_file 'lib/tasks/.keep'
+
 #
 # Git
 #
 git :init
 git add: '.'
 git commit: '-am "Initial commit"'
-
-if @deploy_via_remote && @remote_repo
-  git remote: 'add origin git://github.com/mtfuji/#@app_name.git'
-end
