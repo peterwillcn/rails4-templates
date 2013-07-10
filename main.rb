@@ -60,7 +60,7 @@ end
 
 gem_group :development, :test do
   gem 'debugger'
-  gem 'spring'
+  gem 'zeus'
   gem 'sqlite3'
   gem 'thin'
   gem 'rspec-rails'
