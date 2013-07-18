@@ -9,8 +9,7 @@ gems = {}
 
 insert_into_file '.ruby-version',
                  %(2.0.0@#{app_name})
-run 'cd ..'
-run "cd #{app_name}"
+run "rvm  --create 2.0.0@#{app_name}"
 
 
 def get_and_gsub(source_path, local_path)
@@ -55,7 +54,8 @@ end
 gem_group :development, :test do
   gem 'debugger'
   gem 'zeus'
-  #gem 'rspec-rails'
+  gem 'rspec-rails'
+  gem 'rspec'
   #gem 'timecop'
 end
 
@@ -75,10 +75,10 @@ remove_dir 'test'
 
 application <<-APPEND_APPLICATION
 config.generators do |g|
-      g.integration_tool    :rspec
-      g.fixture_replacement :fabrication
       g.template_engine     :slim
-      g.test_framework      :mini_test, :spec => true, :fixture => true
+      g.integration_tool    :rspec
+      g.test_framework      :rspec, :spec => true, :fixture => true
+      g.fixture_replacement :fabrication
     end
     
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
@@ -109,10 +109,10 @@ remove_file 'public/index.html'
 remove_file 'app/assets/images/rails.png'
 
 # bundler
-get_and_gsub "#{repo_url}/bundle.config", '.bundle/config'
+#get_and_gsub "#{repo_url}/bundle.config", '.bundle/config'
 
 # capistrano
-get "#{repo_url}/Capfile", 'Capfile'
+#get "#{repo_url}/Capfile", 'Capfile'
 
 # views
 remove_file 'app/views/layouts/application.html.erb'
@@ -129,17 +129,17 @@ get "#{repo_url}/app/helpers/application_helper.rb", 'app/helpers/application_he
 get "#{repo_url}/config/deploy/production.rb", 'config/deploy/production.rb'
 
 # config/locales/ja.yml
-get 'https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml', 'config/locales/ja.yml'
-get 'https://gist.github.com/raw/3104030/d3cd6bf55bc905b89b6e08d9454a48c92b81bfdc/devise.ja.yml', 'config/locales/devise.ja.yml'
-get 'https://gist.github.com/mshibuya/1662352/raw/a5ce6fb646d53ca44434a8b7ab238aeeb8791d27/rails_admin.ja.yml', 'config/rails_admin.ja.yml'
-get "#{repo_url}/config/locales/helpers.ja.yml", 'config/locales/helpers.ja.yml'
+#get 'https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml', 'config/locales/ja.yml'
+#get 'https://gist.github.com/raw/3104030/d3cd6bf55bc905b89b6e08d9454a48c92b81bfdc/devise.ja.yml', 'config/locales/devise.ja.yml'
+#get 'https://gist.github.com/mshibuya/1662352/raw/a5ce6fb646d53ca44434a8b7ab238aeeb8791d27/rails_admin.ja.yml', 'config/rails_admin.ja.yml'
+#get "#{repo_url}/config/locales/helpers.ja.yml", 'config/locales/helpers.ja.yml'
 
 # config/database.yml
 gsub_file 'config/database.yml', /^test:$/, 'test: &test'
-insert_into_file 'config/database.yml',
-                 %(cucumber:\n  <<: *test\n\n),
-                 before: 'production:'
-run 'cp config/database.yml config/database.example.yml'
+#insert_into_file 'config/database.yml',
+#                 %(cucumber:\n  <<: *test\n\n),
+#                 before: 'production:'
+#run 'cp config/database.yml config/database.example.yml'
 #get "#{repo_url}/config/database.yml", 'config/database.yml'
 
 # config/deploy.rb
@@ -151,7 +151,7 @@ insert_into_file 'config/application.rb',
                  after: "# config.time_zone = 'Central Time (US & Canada)'\n"
 
 insert_into_file 'config/application.rb',
-                 %(    config.i18n.default_locale = :ja\n),
+                 %(    config.i18n.default_locale = :no\n),
                  after: "# config.i18n.default_locale = :de\n"
 
 # config/environments/development.rb
@@ -166,25 +166,26 @@ get "#{repo_url}/config/settings/test.yml", 'config/settings/test.yml'
 get_and_gsub "#{repo_url}/config/settings/production.yml", 'config/settings/production.yml'
 
 # config/initializers
-get "#{repo_url}/config/initializers/errbit.rb", 'config/initializers/errbit.rb'
+# Airbrake
+#get "#{repo_url}/config/initializers/errbit.rb", 'config/initializers/errbit.rb'
 
 # lib
-get "#{repo_url}/lib/sitemap.rb", 'lib/sitemap.rb'
+#get "#{repo_url}/lib/sitemap.rb", 'lib/sitemap.rb'
 
 # lib/tasks
-get "#{repo_url}/lib/tasks/extract_fixtures.rake", 'lib/tasks/extract_fixtures.rake'
+#get "#{repo_url}/lib/tasks/extract_fixtures.rake", 'lib/tasks/extract_fixtures.rake'
 
 # lib/templates
-get "#{repo_url}/lib/templates/haml/scaffold/_form.html.haml", 'lib/templates/haml/scaffold/_form.html.haml'
-get "#{repo_url}/lib/templates/haml/scaffold/index.html.haml", 'lib/templates/haml/scaffold/index.html.haml'
-get "#{repo_url}/lib/templates/haml/scaffold/edit.html.haml", 'lib/templates/haml/scaffold/edit.html.haml'
-get "#{repo_url}/lib/templates/haml/scaffold/new.html.haml", 'lib/templates/haml/scaffold/new.html.haml'
-get "#{repo_url}/lib/templates/haml/scaffold/show.html.haml", 'lib/templates/haml/scaffold/show.html.haml'
-get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", 'lib/templates/rails/scaffold_controller/controller.rb'
+#get "#{repo_url}/lib/templates/haml/scaffold/_form.html.haml", 'lib/templates/haml/scaffold/_form.html.haml'
+#get "#{repo_url}/lib/templates/haml/scaffold/index.html.haml", 'lib/templates/haml/scaffold/index.html.haml'
+#get "#{repo_url}/lib/templates/haml/scaffold/edit.html.haml", 'lib/templates/haml/scaffold/edit.html.haml'
+#get "#{repo_url}/lib/templates/haml/scaffold/new.html.haml", 'lib/templates/haml/scaffold/new.html.haml'
+#get "#{repo_url}/lib/templates/haml/scaffold/show.html.haml", 'lib/templates/haml/scaffold/show.html.haml'
+#get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", 'lib/templates/rails/scaffold_controller/controller.rb'
 
 # rspec
 get "#{repo_url}/rspec", '.rspec'
-get "#{repo_url}/spec/factories.rb", 'spec/factories.rb'
+#get "#{repo_url}/spec/factories.rb", 'spec/factories.rb'
 get "#{repo_url}/spec/spec_helper.rb", 'spec/spec_helper.rb'
 get "#{repo_url}/spec/support/controller_macros.rb", 'spec/support/controller_macros.rb'
 
