@@ -7,8 +7,7 @@ gems = {}
 
 @app_name = app_name
 
-insert_into_file '.ruby-version',
-                 %(2.0.0@#{app_name})
+run "echo '2.0.0#{@app_name}' > .ruby-version"
 run "rvm  --create 2.0.0@#{app_name}"
 
 
