@@ -2,10 +2,16 @@
 # Application Template
 #
 
-repo_url = 'https://raw.github.com/mtfuji/rails4-templates/master'
+repo_url = 'https://raw.github.com/stabenfeldt/rails4-templates/master'
 gems = {}
 
 @app_name = app_name
+
+insert_into_file '.ruby-version',
+                 %(2.0.0@#{app_name})
+run 'cd ..'
+run "cd #{app_name}"
+
 
 def get_and_gsub(source_path, local_path)
   get source_path, local_path
@@ -16,64 +22,49 @@ end
 # Gemfile
 #
 
-gem 'airbrake'
 gem 'devise', github: 'plataformatec/devise'
-gem 'kaminari'
-gem 'rails_config'
 gem 'haml-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'
 #gem 'rails_admin', branch: 'rails-4'
 #gem 'xml-sitemap'
 
-gem_group :development do
-  gem 'capistrano_colors'
-  gem 'capistrano-ext'
-  gem 'rvm-capistrano'
+gem 'foreman'
+gem 'unicorn'
+gem 'resque'
 
+
+
+gem_group :development do
+  gem 'growl'
+  gem 'foreman'
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'meta_request'
-  #gem 'pry-doc'
-  gem 'pry-rails'
-  gem 'tapp'
   gem 'quiet_assets'
+  gem 'pry-rails'
 end
 
 gem_group :test do
   gem 'database_cleaner'
-  gem 'shoulda-matchers'
-  gem 'factory_girl_rails'
-  gem 'cucumber-rails', require: false
-  #gem 'faker'
-
   gem 'capybara'
-  gem 'capybara-webkit'
-  gem 'selenium-webdriver'
-
-  gem "simplecov", require: false
-  gem 'simplecov-rcov', require: false
-
-  gem 'rb-fsevent', require: false
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  gem 'guard-spork'
+  gem 'turn'
+  gem 'minitest-rails-capybara'
 end
 
 gem_group :development, :test do
   gem 'debugger'
   gem 'zeus'
-  gem 'sqlite3'
-  gem 'thin'
-  gem 'rspec-rails'
+  #gem 'rspec-rails'
   #gem 'timecop'
 end
 
 gem_group :production do
-  gem 'mysql2'
 end
 
-comment_lines 'Gemfile', "gem 'sqlite3'"
-comment_lines 'Gemfile', "gem 'turbolinks'"
-uncomment_lines 'Gemfile', "gem 'therubyracer'"
+#comment_lines 'Gemfile', "gem 'sqlite3'"
+#comment_lines 'Gemfile', "gem 'turbolinks'"
+#uncomment_lines 'Gemfile', "gem 'therubyracer'"
 
 #
 # Files and Directories
@@ -84,13 +75,30 @@ remove_dir 'test'
 
 application <<-APPEND_APPLICATION
 config.generators do |g|
-      #g.template_engine     :haml
-      g.test_framework      :rspec, fixture: true, view_specs: false
-      g.integration_tool    :cucumber
-      g.fixture_replacement :factory_girl, dir: 'spec/factories'
+      g.integration_tool    :rspec
+      g.fixture_replacement :fabrication
+      g.template_engine     :slim
+      g.test_framework      :mini_test, :spec => true, :fixture => true
     end
     
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
+    Fabrication.configure do |config|
+      fabricator_dir = "data/fabricators"
+    end
+
+    config.action_mailer.delivery_method = :smtp
+        config.action_mailer.smtp_settings = {
+          address:              'smtp.gmail.com',
+          port:                 587,
+          domain:               ENV['SMTP_DOMAIN'],
+          user_name:            ENV['SMTP_USERNAME'],
+          password:             ENV['SMTP_PASSWORD'],
+          authentication:       'plain',
+          enable_starttls_auto: true  }
+        
+      end
+    end
 APPEND_APPLICATION
 
 # .gitignore
